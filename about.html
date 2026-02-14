@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About & Legal — Rollover by One-Up</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --dark: #111110;
+      --dark-surface: #1a1918;
+      --dark-border: #2a2928;
+      --dark-text: #eae7e1;
+      --dark-muted: #807b73;
+      --cream: #f6f3ee;
+      --cream-warm: #ece8e1;
+      --surface: #fff;
+      --ink: #1a1714;
+      --ink-secondary: #5a554d;
+      --ink-muted: #9c9690;
+      --ink-faint: #c7c2bb;
+      --border: #ddd8d0;
+      --border-light: #e8e4dd;
+      --accent: #8b6a3e;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Manrope', -apple-system, sans-serif;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:var(--sans);background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased}
+    a{text-decoration:none;color:inherit}button{font-family:var(--sans);cursor:pointer;border:none;background:none}
+    ::selection{background:var(--ink);color:var(--cream)}
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--cream)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+    .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}.reveal.vis{opacity:1;transform:none}
+
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:68px;padding:0 clamp(24px,4vw,56px);display:flex;align-items:center;justify-content:space-between;background:rgba(17,17,16,.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--dark-border)}
+    .nav-brand{display:flex;align-items:center;gap:10px}
+    .nav-mark{width:32px;height:32px;border-radius:6px;overflow:hidden;flex-shrink:0}.nav-mark img{width:100%;height:100%;object-fit:cover}
+    .nav-wordmark{font-family:var(--serif);font-size:19px;font-weight:600;letter-spacing:-.3px;color:var(--dark-text)}
+    .nav-links{display:flex;gap:32px}.nav-links a{font-size:12.5px;font-weight:600;color:var(--dark-muted);letter-spacing:.6px;text-transform:uppercase;transition:color .25s}.nav-links a:hover,.nav-links a.on{color:var(--dark-text)}
+    .nav-back{font-size:12.5px;font-weight:600;color:var(--dark-muted);letter-spacing:.6px;text-transform:uppercase;transition:color .25s}.nav-back:hover{color:var(--dark-text)}
+
+    .header-wrap{background:var(--dark);position:relative;overflow:hidden}
+    .header-bg{position:absolute;inset:0;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+    .page-header{max-width:720px;padding:140px clamp(24px,4vw,56px) 64px;position:relative}
+    .page-header .eyebrow{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:20px}
+    .page-header h1{font-family:var(--serif);font-size:clamp(32px,4vw,52px);font-weight:400;line-height:1.15;letter-spacing:-1px;margin-bottom:16px;color:var(--dark-text)}
+    .page-header h1 em{font-style:italic}
+    .page-header p{font-size:15px;color:var(--dark-muted);line-height:1.75;max-width:480px}
+
+    .divider{height:1px;background:var(--border);margin:48px clamp(24px,4vw,56px);max-width:680px}
+
+    .section{max-width:720px;padding:0 clamp(24px,4vw,56px) 64px}
+    .section-head{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:28px}
+
+    .legal-card{background:var(--surface);border:1px solid var(--border-light);border-radius:3px;padding:28px 32px;margin-bottom:12px;transition:border-color .2s}
+    .legal-card:hover{border-color:var(--border)}
+    .legal-card h3{font-family:var(--serif);font-size:18px;font-weight:500;margin-bottom:14px}
+    .legal-card p{font-size:13.5px;color:var(--ink-secondary);line-height:1.8}
+    .legal-card p+p{margin-top:12px}
+
+    .contact-card{background:var(--surface);border:1px solid var(--border-light);border-radius:3px;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+    .contact-left h3{font-family:var(--serif);font-size:24px;font-weight:400;line-height:1.3;margin-bottom:12px}
+    .contact-left h3 em{font-style:italic}
+    .contact-left p{font-size:14px;color:var(--ink-secondary);line-height:1.75;margin-bottom:28px}
+    .contact-email{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;background:var(--ink);color:var(--cream);font-size:14px;font-weight:600;border-radius:3px;transition:background .25s}
+    .contact-email:hover{background:var(--accent)}
+    .contact-details{display:flex;flex-direction:column;gap:16px;padding-top:8px}
+    .contact-row{display:flex;gap:16px;font-size:13px}
+    .contact-row .label{font-weight:700;min-width:80px;color:var(--ink)}
+    .contact-row .val{color:var(--ink-secondary)}
+
+    .ft-wrap{background:var(--dark);margin-top:40px}
+    .ft{max-width:720px;padding:36px clamp(24px,4vw,56px);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;border-top:1px solid var(--dark-border)}
+    .ft-left{display:flex;align-items:center;gap:10px}
+    .ft-mark{width:22px;height:22px;border-radius:4px;overflow:hidden;flex-shrink:0}.ft-mark img{width:100%;height:100%;object-fit:cover}
+    .ft-name{font-family:var(--serif);font-size:14px;color:var(--dark-text)}
+    .ft-dot{width:3px;height:3px;border-radius:50%;background:var(--dark-border)}
+    .ft-sub{font-size:11px;color:var(--dark-muted)}
+
+    @media(max-width:768px){
+      .nav{padding:0 24px;height:60px}.nav-links{display:none}
+      .page-header{padding-top:110px}
+      .contact-card{grid-template-columns:1fr;gap:32px;padding:32px}
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-brand"><div class="nav-mark"><img src="logo.png" alt="One-Up"></div><div class="nav-wordmark">Rollover</div></a>
+    <div class="nav-links"><a href="index.html">Shop</a><a href="index.html">New In</a><a href="about.html" class="on">About</a></div>
+    <a href="index.html" class="nav-back">← Shop</a>
+  </nav>
+
+  <div class="header-wrap">
+    <div class="header-bg"></div>
+    <div class="page-header reveal">
+      <div class="eyebrow">One-Up Pty Ltd</div>
+      <h1>About <em>Rollover</em></h1>
+      <p>Rollover is a product by One-Up. We find what's trending and bring it to you. Below you'll find our legal policies and how to get in touch.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section reveal">
+    <div class="section-head">Legal</div>
+    <div class="legal-card"><h3>Copyright Notice</h3><p>All content on this website — including but not limited to text, graphics, logos, images, product descriptions, page layouts, and software — is the property of One-Up Pty Ltd and is protected by Australian and international copyright laws.</p><p>No part of this website may be reproduced, distributed, transmitted, displayed, published, or broadcast without the prior written permission of One-Up Pty Ltd. Unauthorised use of any materials on this site may violate copyright, trademark, and other applicable laws and could result in legal action.</p></div>
+    <div class="legal-card"><h3>Trademarks</h3><p>"One-Up," "Rollover," the One-Up logo, and all related names, logos, product and service names, designs, and slogans are trademarks of One-Up Pty Ltd. You must not use such marks without our prior written permission. All other names, logos, product and service names, designs, and slogans on this website are the trademarks of their respective owners.</p></div>
+    <div class="legal-card"><h3>Product Images & Descriptions</h3><p>Product images displayed on this website are for illustrative purposes and may differ slightly from the actual product in terms of colour, size, or appearance due to screen display variations. We make every reasonable effort to accurately describe and display our products, however we do not warrant that descriptions, images, or other content is complete, reliable, current, or error-free.</p></div>
+    <div class="legal-card"><h3>Disclaimer of Liability</h3><p>This website and its content are provided on an "as is" basis without warranties of any kind, either express or implied. One-Up Pty Ltd does not warrant that this website will be uninterrupted, error-free, or free of viruses or other harmful components.</p><p>To the fullest extent permitted by law, One-Up Pty Ltd shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising out of your access to, use of, or inability to use this website or any content, products, or services obtained through this website.</p></div>
+    <div class="legal-card"><h3>Third-Party Links</h3><p>This website may contain links to third-party websites or services that are not owned or controlled by One-Up Pty Ltd. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party websites.</p></div>
+    <div class="legal-card"><h3>Governing Law</h3><p>These terms and any dispute arising out of or in connection with them shall be governed by and construed in accordance with the laws of Queensland, Australia. You agree to submit to the exclusive jurisdiction of the courts of Queensland, Australia.</p></div>
+    <div class="legal-card"><h3>Refund & Returns</h3><p>We offer a 30-day return window on all products. If you are not satisfied with your purchase, you may request a refund or exchange within 30 days of delivery. Items must be unused and in their original packaging. Shipping costs for returns are the responsibility of the customer unless the item is faulty or incorrect.</p><p>Refunds will be processed within 5–10 business days of receiving the returned item. For faulty products, please contact us with photos of the issue and we will arrange a replacement or full refund including shipping.</p></div>
+    <div class="legal-card"><h3>Privacy</h3><p>One-Up Pty Ltd collects personal information solely for the purpose of fulfilling orders and improving our services. We do not sell, trade, or otherwise share your personal information with third parties, except as necessary to process your order (e.g. shipping providers, payment processors).</p><p>All payment transactions are processed securely through Shopify's PCI-compliant payment infrastructure. We do not store your credit card details on our servers.</p></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section reveal">
+    <div class="section-head">Contact</div>
+    <div class="contact-card">
+      <div class="contact-left">
+        <h3>Get <em>in touch</em></h3>
+        <p>Have a question about an order, a product, or just want to say hello? We'd love to hear from you. We aim to respond within 24 hours.</p>
+        <a href="mailto:clem@one-up.cloud" class="contact-email">clem@one-up.cloud →</a>
+      </div>
+      <div class="contact-details">
+        <div class="contact-row"><span class="label">Email</span><span class="val">clem@one-up.cloud</span></div>
+        <div class="contact-row"><span class="label">Response</span><span class="val">Within 24 hours</span></div>
+        <div class="contact-row"><span class="label">Company</span><span class="val">One-Up Pty Ltd</span></div>
+        <div class="contact-row"><span class="label">Location</span><span class="val">Queensland, Australia</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ft-wrap">
+    <footer class="ft">
+      <div class="ft-left"><div class="ft-mark"><img src="logo.png" alt="One-Up"></div><span class="ft-name">Rollover</span><span class="ft-dot"></span><span class="ft-sub">A One-Up product</span></div>
+      <span class="ft-sub">© 2026 One-Up Pty Ltd</span>
+    </footer>
+  </div>
+
+<script>
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');}});},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
