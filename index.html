@@ -87,6 +87,8 @@
     .hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap}
     .hero-body{font-size:15px;line-height:1.75;color:var(--ink3);max-width:400px}
     .hero-cta{display:inline-flex;align-items:center;gap:8px;padding:16px 36px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-radius:6px;transition:all .3s;box-shadow:0 4px 16px rgba(37,99,235,.25)}.hero-cta:hover{background:var(--accent-hover);box-shadow:0 8px 24px rgba(37,99,235,.3)}
+    .hero-cta-alt{display:inline-flex;align-items:center;gap:8px;padding:16px 36px;background:transparent;color:var(--accent);font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-radius:6px;border:2px solid var(--accent);transition:all .3s}.hero-cta-alt:hover{background:var(--accent);color:#fff;box-shadow:0 8px 24px rgba(37,99,235,.3)}
+    .hero-ctas{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
     .hero-divider{max-width:1320px;margin:0 auto;padding:0 clamp(24px,4vw,56px) 48px}
     .hero-line{height:1px;background:var(--border)}
     .hero-stats{display:flex;gap:56px;padding-top:24px}
@@ -209,7 +211,7 @@
       <h1>Your workspace, <em>upgraded.</em></h1>
       <div class="hero-row">
         <p class="hero-body">Ergonomic gear and minimalist desk accessories trending right now. Everything you need for a cleaner, smarter setup.</p>
-        <a href="#products" class="hero-cta">Shop now ↓</a>
+        <div class="hero-ctas"><a href="#products" class="hero-cta">Shop now ↓</a><a href="builder.html" class="hero-cta-alt">Build your desk →</a></div>
       </div>
     </section>
     <div class="hero-divider reveal"><div class="hero-line"></div><div class="hero-stats"><div><div class="hero-stat-val">Ergonomic</div><div class="hero-stat-lbl">Desk essentials</div></div><div><div class="hero-stat-val">$50+</div><div class="hero-stat-lbl">Free shipping</div></div><div><div class="hero-stat-val">30 days</div><div class="hero-stat-lbl">Easy returns</div></div></div></div>

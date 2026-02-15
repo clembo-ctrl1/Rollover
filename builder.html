@@ -19,7 +19,7 @@ body{font-family:var(--sans);background:#f1f5f9;color:#0f172a;overflow:hidden;he
 #fallback p{font-size:12px;color:#64748b}
 #fallback.hide{display:none}
 
-#cv{position:fixed;top:52px;left:320px;right:0;bottom:50px;z-index:1;cursor:grab;background:#dde1ea}
+#cv{position:fixed;top:52px;left:320px;z-index:1;cursor:grab;background:#dde1ea}
 #cv:active{cursor:grabbing}
 
 .nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:52px;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr)}
@@ -52,7 +52,7 @@ body{font-family:var(--sans);background:#f1f5f9;color:#0f172a;overflow:hidden;he
 .tip{position:fixed;z-index:200;pointer-events:none;opacity:0;transition:opacity .12s}.tip.show{opacity:1}
 .tip-c{background:#fff;border:1px solid var(--bdr);padding:6px 12px;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.08)}
 .tip-n{font-size:10px;font-weight:600;color:#0f172a}.tip-p{font-size:10px;color:var(--accent);margin-left:8px;font-weight:700}
-@media(max-width:900px){.panel{width:240px}#cv,#fallback{left:240px}.hud-l{padding-left:240px}}
+@media(max-width:900px){.panel{width:240px}#fallback{left:240px}.hud-l{padding-left:240px}}
 </style>
 </head>
 <body>
@@ -96,7 +96,11 @@ var catList=['Keyboards','Mouse','Mousepads','Lighting','Stands','Comfort','Acce
 var items=[],nid=0;
 
 var cv=document.getElementById('cv');
-var W=cv.clientWidth,H=cv.clientHeight;
+var panelW=window.innerWidth>900?320:240;
+var W=window.innerWidth-panelW;
+var H=window.innerHeight-102;
+cv.style.width=W+'px';
+cv.style.height=H+'px';
 
 var renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true});
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
@@ -108,11 +112,11 @@ renderer.setClearColor(0xdde1ea);
 var scene=new THREE.Scene();
 scene.background=new THREE.Color(0xdde1ea);
 
-var cam=new THREE.PerspectiveCamera(40,W/H,0.1,100);
+var cam=new THREE.PerspectiveCamera(42,W/H,0.1,100);
 
 // Orbit
-var oT=0.6,oP=0.75,oD=7;
-var oTgt=new THREE.Vector3(0,1.1,0);
+var oT=0.55,oP=0.72,oD=8.5;
+var oTgt=new THREE.Vector3(0,1.0,0);
 var orbiting=false,panning=false,pmx=0,pmy=0;
 function updCam(){
   cam.position.set(
@@ -142,8 +146,8 @@ cv.addEventListener('mouseup',function(){orbiting=false;panning=false;endDrag()}
 cv.addEventListener('wheel',function(e){oD=Math.max(3,Math.min(14,oD+e.deltaY*.004));updCam()},{passive:true});
 
 // ── LIGHTS ──
-scene.add(new THREE.AmbientLight(0xffffff,0.65));
-var sun=new THREE.DirectionalLight(0xfff8ee,0.9);
+scene.add(new THREE.AmbientLight(0xffffff,0.75));
+var sun=new THREE.DirectionalLight(0xfff8ee,0.95);
 sun.position.set(4,8,5);sun.castShadow=true;
 sun.shadow.mapSize.set(2048,2048);
 sun.shadow.camera.near=0.5;sun.shadow.camera.far=20;
@@ -175,7 +179,7 @@ var mLED=new THREE.MeshBasicMaterial({color:0xd8eeff});
 var mGlo=new THREE.MeshBasicMaterial({color:0x1a2844});
 
 // ── SCENE ──
-var floor=new THREE.Mesh(new THREE.PlaneGeometry(30,30),new THREE.MeshPhongMaterial({color:0xd0d4de}));
+var floor=new THREE.Mesh(new THREE.PlaneGeometry(30,30),new THREE.MeshPhongMaterial({color:0xd8dce6}));
 floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;scene.add(floor);
 var wall=new THREE.Mesh(new THREE.PlaneGeometry(16,6),new THREE.MeshLambertMaterial({color:0xe8eaef}));
 wall.position.set(0,3,-3.2);wall.receiveShadow=true;scene.add(wall);
@@ -415,7 +419,11 @@ function animate(){
 }
 
 function onResize(){
-  W=cv.clientWidth;H=cv.clientHeight;
+  panelW=window.innerWidth>900?320:240;
+  W=window.innerWidth-panelW;
+  H=window.innerHeight-102;
+  cv.style.width=W+'px';
+  cv.style.height=H+'px';
   cam.aspect=W/H;cam.updateProjectionMatrix();
   renderer.setSize(W,H);
 }
@@ -424,7 +432,9 @@ window.addEventListener('resize',onResize);
 // Init
 document.getElementById('fallback').classList.add('hide');
 renderSB();doPreset('pro');animate();
-setTimeout(onResize,50);
+onResize();
+setTimeout(onResize,100);
+setTimeout(onResize,500);
 })();
 </script>
 </body>
