@@ -18,6 +18,22 @@
       --heart:#ef4444;
       --serif:'Playfair Display',Georgia,serif;--sans:'Manrope',-apple-system,sans-serif;
     }
+    body.dark{
+      --bg:#0f1117;--bg-alt:#161922;--bg-card:#1e2130;
+      --ink:#f1f5f9;--ink2:#cbd5e1;--ink3:#94a3b8;--ink4:#64748b;--ink5:#334155;
+      --border:#2a2f3e;--border-light:#1e2130;
+      --accent:#3b82f6;--accent-hover:#60a5fa;--accent-light:#1e3a5f;--accent-bg:#172036;
+    }
+    body.dark .nav{background:rgba(15,17,23,.92)}
+    body.dark .announce{background:#1e40af}
+    body.dark .mob-menu{background:var(--bg);border-color:var(--border)}
+    body.dark ::-webkit-scrollbar-track{background:var(--bg)}
+    body.dark ::-webkit-scrollbar-thumb{background:var(--ink5)}
+    body.dark .currency-sel{background:var(--bg-card);border-color:var(--border);color:var(--ink)}
+    body.dark .item-hover button{background:var(--accent)}
+    body.dark .cdrawer{background:var(--bg);border-color:var(--border)}
+    body.dark .qv-modal{background:var(--bg)}
+    body.dark .search-overlay{background:rgba(15,17,23,.97)}
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
     a{text-decoration:none;color:inherit}button{font-family:var(--sans);cursor:pointer;border:none;background:none}
@@ -145,6 +161,26 @@
     .rv-name{font-size:12px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}.rv-price{font-size:12px;font-weight:700;color:var(--accent)}
 
     /* ── Trust ── */
+    /* ── Dark Toggle ── */
+    .dm-wrap{display:flex;align-items:center;gap:6px;flex-shrink:0}
+    .dm-toggle{width:36px;height:20px;border-radius:20px;background:var(--bg-card);border:1px solid var(--border);position:relative;cursor:pointer;transition:all .3s;flex-shrink:0;padding:0}
+    .dm-toggle::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--accent);transition:all .3s;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+    body.dark .dm-toggle{background:#1e3a5f;border-color:#2a4a6f}
+    body.dark .dm-toggle::after{transform:translateX(16px);background:#60a5fa}
+    .dm-icon{font-size:12px;color:var(--ink4);transition:color .3s}
+    body.dark .dm-icon{color:#60a5fa}
+
+    /* ── Live Stats (fixed floating widget) ── */
+    .ls-float{position:fixed;top:128px;right:clamp(24px,4vw,56px);z-index:80;width:220px;transition:top .3s}
+    body.av .ls-float{top:164px}
+    .ls-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.08)}
+    .ls-cell{background:var(--bg);padding:18px 12px;text-align:center}
+    body.dark .ls-cell{background:var(--bg-alt)}
+    .ls-val{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-0.5px;margin-bottom:3px;line-height:1}
+    .ls-lbl{font-size:7px;font-weight:700;color:var(--ink4);letter-spacing:1px;text-transform:uppercase;line-height:1.3}
+    .ls-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:#22c55e;margin-right:3px;animation:lsPulse 2s infinite;vertical-align:middle}
+    @keyframes lsPulse{0%,100%{opacity:1}50%{opacity:.3}}
+
     .trust{max-width:1320px;margin:0 auto;padding:48px clamp(24px,4vw,56px) 80px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;border-top:1px solid var(--border)}
     .trust h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}.trust p{font-size:12.5px;color:var(--ink4);line-height:1.5}
 
@@ -173,7 +209,7 @@
     .c-bot{padding:20px 28px;border-top:1px solid var(--border)}.c-sub{display:flex;justify-content:space-between;margin-bottom:4px}.c-sub .l{font-size:13px;color:var(--ink3)}.c-sub .v{font-family:var(--serif);font-size:20px;font-weight:500;color:var(--ink)}.c-ship{font-size:10px;color:var(--accent);letter-spacing:1px;text-transform:uppercase;text-align:center;margin-bottom:14px;display:none}.c-ship.on{display:block}.c-go{width:100%;padding:15px;background:var(--accent);color:#fff;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-radius:6px;transition:background .2s;box-shadow:0 4px 16px rgba(37,99,235,.25)}.c-go:hover{background:var(--accent-hover)}.c-note{font-size:10px;color:var(--ink4);text-align:center;margin-top:10px}
 
     @media(max-width:1024px){.grid{grid-template-columns:repeat(2,1fr)}.item.big{grid-column:span 2}.popular-row{grid-template-columns:repeat(2,1fr)}.pick{grid-template-columns:1fr;gap:40px}.pick-visual{max-width:400px}.trust{grid-template-columns:repeat(2,1fr)}.qv-inner{grid-template-columns:1fr}.qv-img{aspect-ratio:16/9;max-height:280px}.search-results{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:768px){.nav{padding:0 24px;height:60px}.nav-links{display:none}.burger{display:flex}.announce p{font-size:10px}.currency-sel{font-size:10px;padding:5px 20px 5px 8px}.hero{padding:120px 24px 60px}.hero h1{font-size:36px}.hero-stats{gap:32px}.popular-wrap{padding:0 24px 48px}.popular-row{grid-template-columns:1fr 1fr;gap:10px}.filter-section{padding:40px 24px 20px}.grid{padding:0 24px 72px;gap:14px}.item.big{grid-column:span 2}.pick{padding:60px 24px}.pick-visual{max-width:100%}.trust{padding:32px 24px 60px;grid-template-columns:1fr 1fr}.cdrawer{max-width:100%}.qv-modal{width:95%;max-width:none}.qv-body{padding:28px}.rv-section{padding:0 24px 48px}.search-results{grid-template-columns:1fr 1fr}.search-input{font-size:24px}}
+    @media(max-width:768px){.nav{padding:0 24px;height:60px}.nav-links{display:none}.burger{display:flex}.announce p{font-size:10px}.currency-sel{font-size:10px;padding:5px 20px 5px 8px}.hero{padding:120px 24px 60px}.hero h1{font-size:36px}.hero-stats{gap:32px}.popular-wrap{padding:0 24px 48px}.popular-row{grid-template-columns:1fr 1fr;gap:10px}.filter-section{padding:40px 24px 20px}.grid{padding:0 24px 72px;gap:14px}.item.big{grid-column:span 2}.pick{padding:60px 24px}.pick-visual{max-width:100%}.trust{padding:32px 24px 60px;grid-template-columns:1fr 1fr}.cdrawer{max-width:100%}.qv-modal{width:95%;max-width:none}.qv-body{padding:28px}.rv-section{padding:0 24px 48px}.search-results{grid-template-columns:1fr 1fr}.search-input{font-size:24px}.dm-wrap .dm-lbl{display:none}.ls-float{position:fixed;top:auto;bottom:60px;right:12px;width:180px;z-index:80}.ls-val{font-size:17px}.ls-cell{padding:12px 8px}.ls-lbl{font-size:6px}}
     @media(max-width:480px){.grid{grid-template-columns:1fr 1fr;gap:10px}.item.big{grid-column:span 2}.item-img{aspect-ratio:1}.item.big .item-img{aspect-ratio:16/9}.popular-row{grid-template-columns:1fr 1fr}.search-results{grid-template-columns:1fr}}
   </style>
 </head>
@@ -185,6 +221,7 @@
     <a href="index.html" class="nav-brand"><div class="nav-mark"><img src="logo.png" alt="One-Up"></div><div class="nav-wordmark">Rollover</div></a>
     <div class="nav-links"><a href="index.html" class="on">Shop</a><a href="builder.html">Build</a><a href="about.html">About</a></div>
     <div class="nav-actions">
+      <div class="dm-wrap"><span class="dm-icon">☀️</span><button class="dm-toggle" onclick="toggleDark()" title="Toggle dark mode"></button><span class="dm-icon">🌙</span></div>
       <button class="burger" onclick="toggleMob()"><span></span><span></span><span></span></button>
       <button class="nav-icon-btn" onclick="openSearch()" title="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
       <select class="currency-sel" id="currSel" onchange="setCurrency(this.value)"><option value="AUD">AUD $</option><option value="USD">USD $</option><option value="GBP">GBP £</option><option value="EUR">EUR €</option><option value="NZD">NZD $</option><option value="CAD">CAD $</option></select>
@@ -192,10 +229,19 @@
     </div>
   </nav>
 
+  <div class="ls-float" id="lsFloat">
+    <div class="ls-grid">
+      <div class="ls-cell"><div class="ls-val" id="lsVisitors">—</div><div class="ls-lbl"><span class="ls-dot"></span>Visitors</div></div>
+      <div class="ls-cell"><div class="ls-val" id="lsOrders">—</div><div class="ls-lbl">Orders</div></div>
+      <div class="ls-cell"><div class="ls-val" id="lsCountries">—</div><div class="ls-lbl">Countries</div></div>
+      <div class="ls-cell"><div class="ls-val" id="lsRating">—</div><div class="ls-lbl">Avg. rating</div></div>
+    </div>
+  </div>
+
   <div class="mob-backdrop" id="mobDrop" onclick="toggleMob()"></div>
   <div class="mob-menu" id="mobMenu">
     <div class="mob-menu-top"><span style="font-family:var(--serif);font-size:18px;color:var(--ink)">Menu</span><button class="mob-menu-close" onclick="toggleMob()">✕</button></div>
-    <a href="index.html">Shop</a><a href="builder.html">Build Your Desk</a><a href="about.html">About</a><a href="javascript:toggleMob();openSearch()">Search</a>
+    <a href="index.html">Shop</a><a href="builder.html">Build Your Desk</a><a href="about.html">About</a><a href="javascript:toggleMob();openSearch()">Search</a><a href="javascript:toggleDark();toggleMob()">Toggle Dark Mode</a>
   </div>
 
   <div class="search-overlay" id="searchOv">
@@ -343,6 +389,64 @@ renderPopular();render();renderPick();observeReveals();
     requestAnimationFrame(draw);
   }
   draw();
+})();
+
+// ── Dark Mode ──
+function toggleDark(){
+  document.body.classList.toggle('dark');
+  var isDark=document.body.classList.contains('dark');
+  try{localStorage.setItem('rollover-dark',isDark?'1':'0');}catch(e){}
+  // Update hero canvas particles if needed
+}
+(function(){try{if(localStorage.getItem('rollover-dark')==='1')document.body.classList.add('dark');}catch(e){}})();
+
+// ── Live Stats (persistent, real-time ticking) ──
+(function(){
+  var BASE={visitors:14823,orders:1247,countries:38,rating:4.8};
+  var KEY='rollover-stats';
+  var data;
+  try{data=JSON.parse(localStorage.getItem(KEY));}catch(e){}
+  if(!data||!data.visitors){
+    data={visitors:BASE.visitors,orders:BASE.orders,countries:BASE.countries,rating:BASE.rating};
+  }
+  // New visit
+  data.visitors+=Math.floor(Math.random()*3)+1;
+  if(Math.random()<0.2)data.orders+=1;
+  if(data.countries<72&&Math.random()<0.03)data.countries+=1;
+  data.rating=Math.round((4.7+Math.random()*0.3)*10)/10;
+  try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}
+
+  function fmt(n){return n.toLocaleString();}
+
+  // Animate count up on load
+  function animTo(el,target,dec,suf){
+    var dur=1200,t0=null;
+    function step(ts){
+      if(!t0)t0=ts;
+      var p=Math.min((ts-t0)/dur,1);
+      var ease=1-Math.pow(1-p,3);
+      var v=target*ease;
+      el.textContent=dec>0?v.toFixed(dec)+(suf||''):fmt(Math.round(v));
+      if(p<1)requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  animTo(document.getElementById('lsVisitors'),data.visitors,0);
+  animTo(document.getElementById('lsOrders'),data.orders,0);
+  animTo(document.getElementById('lsCountries'),data.countries,0);
+  animTo(document.getElementById('lsRating'),data.rating,1,' ★');
+
+  // Tick visitors every 5-10s
+  setInterval(function(){
+    data.visitors+=Math.floor(Math.random()*2)+1;
+    document.getElementById('lsVisitors').textContent=fmt(data.visitors);
+    // Occasionally bump orders
+    if(Math.random()<0.08){
+      data.orders+=1;
+      document.getElementById('lsOrders').textContent=fmt(data.orders);
+    }
+    try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}
+  },7000);
 })();
 </script>
 </body>

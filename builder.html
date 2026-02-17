@@ -12,6 +12,35 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:var(--sans);background:#f1f5f9;color:#0f172a;overflow:hidden;height:100vh}
 
+/* Dark mode */
+body.dark{background:#0f1117;color:#f1f5f9}
+body.dark .nav{background:rgba(15,17,23,.92);border-color:#2a2f3e}
+body.dark .nav-b{color:#f1f5f9}
+body.dark .nav-l a{color:#64748b}body.dark .nav-l a:hover,body.dark .nav-l a.on{color:#f1f5f9}
+body.dark .panel{background:#161922;border-color:#2a2f3e}
+body.dark .p-head p{color:#94a3b8}
+body.dark .p-cat{color:#64748b;border-color:#1e2130}
+body.dark .itm:hover{background:#1e2130}
+body.dark .itm-name{color:#cbd5e1}
+body.dark .itm-pr{color:#94a3b8}
+body.dark .itm.on .itm-pr{color:#3b82f6}
+body.dark .itm.on .itm-btn{background:#1e2130;color:#64748b}
+body.dark .hud{background:#161922;border-color:#2a2f3e}
+body.dark .pre{border-color:#2a2f3e;color:#94a3b8;background:#161922}body.dark .pre:hover{border-color:#3b82f6;color:#3b82f6}
+body.dark .h-val{color:#f1f5f9}
+body.dark .hb.clr{background:#1e2130;color:#94a3b8;border-color:#2a2f3e}
+body.dark .tip-c{background:#161922;border-color:#2a2f3e}
+body.dark .tip-n{color:#f1f5f9}
+body.dark #cv{background:#1a1d28}
+body.dark #fallback{background:linear-gradient(135deg,#161922,#1a1d28)}
+.dm-wrap{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.dm-toggle{width:36px;height:20px;border-radius:20px;background:#f1f5f9;border:1px solid var(--bdr);position:relative;cursor:pointer;transition:all .3s;flex-shrink:0;padding:0}
+.dm-toggle::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--accent);transition:all .3s;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+body.dark .dm-toggle{background:#1e3a5f;border-color:#2a4a6f}
+body.dark .dm-toggle::after{transform:translateX(16px);background:#60a5fa}
+.dm-icon{font-size:12px;color:#94a3b8;transition:color .3s}
+body.dark .dm-icon{color:#60a5fa}
+
 /* Fallback shown until Three.js renders */
 #fallback{position:fixed;top:52px;left:320px;right:0;bottom:50px;background:linear-gradient(135deg,#e2e6ee,#d8dce8);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;z-index:2}
 #fallback .spin{width:32px;height:32px;border:3px solid var(--bdr);border-top-color:var(--accent);border-radius:50%;animation:sp .6s linear infinite}
@@ -60,11 +89,16 @@ body{font-family:var(--sans);background:#f1f5f9;color:#0f172a;overflow:hidden;he
 <div id="fallback"><div class="spin"></div><p>Loading 3D workspace...</p></div>
 <canvas id="cv"></canvas>
 
-<nav class="nav"><a href="index.html" class="nav-b"><div class="nav-m"><img src="logo.png" alt=""></div><div class="nav-w">Rollover</div></a><div class="nav-l"><a href="index.html">Shop</a><a href="builder.html" class="on">Build</a><a href="about.html">About</a></div></nav>
+<nav class="nav"><a href="index.html" class="nav-b"><div class="nav-m"><img src="logo.png" alt=""></div><div class="nav-w">Rollover</div></a><div class="nav-l"><a href="index.html">Shop</a><a href="builder.html" class="on">Build</a><a href="about.html">About</a></div><div class="dm-wrap"><span class="dm-icon">☀️</span><button class="dm-toggle" onclick="toggleDark()" title="Toggle dark mode"></button><span class="dm-icon">🌙</span></div></nav>
 <div class="panel"><div class="p-head"><h2>Setup Creator</h2><p>Click <b>Add</b> to place. Drag items to reposition. Left-drag empty space to orbit. Scroll to zoom. Double-click to remove.</p></div><div class="p-list" id="pList"></div></div>
 <div class="hud"><div class="hud-l"><span>Presets:</span><button class="pre" onclick="doPreset('minimal')">Minimal</button><button class="pre" onclick="doPreset('pro')">Pro</button><button class="pre" onclick="doPreset('rgb')">RGB</button></div><div class="hud-r"><div class="h-total"><div class="h-lbl">Total</div><div class="h-val" id="tot">$0.00</div><div class="h-cnt" id="cnt">0 items</div></div><button class="hb clr" onclick="clearAll()">Clear</button><button class="hb cart" id="cartBtn" onclick="cartAll()">Add all to cart</button></div></div>
 <div class="tip" id="tip"><div class="tip-c"><span class="tip-n" id="tipN"></span><span class="tip-p" id="tipP"></span></div></div>
 
+<!-- Dark mode sync -->
+<script>
+function toggleDark(){document.body.classList.toggle('dark');try{localStorage.setItem('rollover-dark',document.body.classList.contains('dark')?'1':'0');}catch(e){}}
+try{if(localStorage.getItem('rollover-dark')==='1')document.body.classList.add('dark');}catch(e){}
+</script>
 <!-- Three.js from CDN -->
 <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
 <script>

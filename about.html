@@ -17,6 +17,25 @@
       --accent:#2563eb;--accent-hover:#1d4ed8;--accent-light:#dbeafe;
       --serif:'Playfair Display',Georgia,serif;--sans:'Manrope',-apple-system,sans-serif;
     }
+    body.dark{
+      --bg:#0f1117;--bg-alt:#161922;--bg-card:#1e2130;
+      --ink:#f1f5f9;--ink2:#cbd5e1;--ink3:#94a3b8;--ink4:#64748b;--ink5:#334155;
+      --border:#2a2f3e;--border-light:#1e2130;
+      --accent:#3b82f6;--accent-hover:#60a5fa;--accent-light:#1e3a5f;
+    }
+    body.dark .nav{background:rgba(15,17,23,.92)}
+    body.dark .announce{background:#1e40af}
+    body.dark .mob-menu{background:var(--bg);border-color:var(--border)}
+    body.dark ::-webkit-scrollbar-track{background:var(--bg)}
+    body.dark ::-webkit-scrollbar-thumb{background:var(--ink5)}
+    /* Dark toggle */
+    .dm-wrap{display:flex;align-items:center;gap:6px;flex-shrink:0}
+    .dm-toggle{width:36px;height:20px;border-radius:20px;background:var(--bg-card);border:1px solid var(--border);position:relative;cursor:pointer;transition:all .3s;flex-shrink:0;padding:0}
+    .dm-toggle::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--accent);transition:all .3s;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+    body.dark .dm-toggle{background:#1e3a5f;border-color:#2a4a6f}
+    body.dark .dm-toggle::after{transform:translateX(16px);background:#60a5fa}
+    .dm-icon{font-size:12px;color:var(--ink4);transition:color .3s}
+    body.dark .dm-icon{color:#60a5fa}
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
     a{text-decoration:none;color:inherit}button{font-family:var(--sans);cursor:pointer;border:none;background:none}
@@ -94,6 +113,7 @@
     <a href="index.html" class="nav-brand"><div class="nav-mark"><img src="logo.png" alt="One-Up"></div><div class="nav-wordmark">Rollover</div></a>
     <div class="nav-links"><a href="index.html">Shop</a><a href="builder.html">Build</a><a href="about.html" class="on">About</a></div>
     <div class="nav-actions">
+      <div class="dm-wrap"><span class="dm-icon">☀️</span><button class="dm-toggle" onclick="toggleDark()" title="Toggle dark mode"></button><span class="dm-icon">🌙</span></div>
       <button class="burger" onclick="toggleMob()"><span></span><span></span><span></span></button>
     </div>
   </nav>
@@ -201,4 +221,19 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElement
     pts.forEach(p=>{
       cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle=`rgba(37,99,235,${p.base})`;cx.fill();
       if(useMouse){const dx=p.x-mx,dy=p.y-my,d=Math.sqrt(dx*dx+dy*dy);if(d<120&&d>0){const f=.8*(1-d/120);p.vx+=dx/d*f;p.vy+=dy/d*f;}}
-      const spd=Math.sqrt(p.vx*p.vx+p.vy*p.vy);if(spd>1.8){p.vx*
+      const spd=Math.sqrt(p.vx*p.vx+p.vy*p.vy);if(spd>1.8){p.vx*=.95;p.vy*=.95;}
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0){p.x=0;p.vx*=-1;}if(p.x>cv.width){p.x=cv.width;p.vx*=-1;}
+      if(p.y<0){p.y=0;p.vy*=-1;}if(p.y>cv.height){p.y=cv.height;p.vy*=-1;}
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// Dark mode
+function toggleDark(){document.body.classList.toggle('dark');try{localStorage.setItem('rollover-dark',document.body.classList.contains('dark')?'1':'0');}catch(e){}}
+try{if(localStorage.getItem('rollover-dark')==='1')document.body.classList.add('dark');}catch(e){}
+</script>
+</body>
+</html>
