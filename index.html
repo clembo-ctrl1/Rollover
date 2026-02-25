@@ -300,7 +300,7 @@ function closeAnnounce(){document.getElementById('announceBar').style.display='n
 function toggleMob(){document.getElementById('mobMenu').classList.toggle('open');document.getElementById('mobDrop').classList.toggle('open');}
 function openSearch(){document.getElementById('searchOv').classList.add('open');setTimeout(()=>document.getElementById('searchIn').focus(),100);doSearch('');}
 function closeSearch(){document.getElementById('searchOv').classList.remove('open');document.getElementById('searchIn').value='';}
-function doSearch(q){const r=document.getElementById('searchRes');const t=q.toLowerCase().trim();const m=t?P.filter(p=>p.n.toLowerCase().includes(t)||p.c.toLowerCase().includes(t)):P;if(!m.length){r.innerHTML='<div class="search-empty">No products found.</div>';return;}r.innerHTML=m.map(p=>{const i=P.indexOf(p);return`<div class="sr-card" onclick="closeSearch();openQV(${i})"><div class="sr-img"><div class="bg-fill" style="background:${p.bg}"></div><span class="icon">${p.icon}</span></div><div class="sr-info"><div class="sr-name">${p.n}</div><div class="sr-price">${price(p.pr)}</div></div></div>`;}).join('');}
+function doSearch(q){const r=document.getElementById('searchRes');const t=q.toLowerCase().trim();const m=t?P.filter(p=>p.n.toLowerCase().includes(t)||p.c.toLowerCase().includes(t)):P;if(!m.length){r.innerHTML='<div class="search-empty">No products found.</div>';return;}r.innerHTML=m.map(p=>{const i=P.indexOf(p);return`<div class="sr-card" onclick="closeSearch();openQV(${i})"><div class="sr-img">${pImg(p)}</div><div class="sr-info"><div class="sr-name">${p.n}</div><div class="sr-price">${price(p.pr)}</div></div></div>`;}).join('');}
 const rates={AUD:1,USD:0.64,GBP:0.51,EUR:0.59,NZD:1.09,CAD:0.88};const symbols={AUD:'A$',USD:'US$',GBP:'£',EUR:'€',NZD:'NZ$',CAD:'C$'};let curCurrency='AUD';
 function price(a){return symbols[curCurrency]+(a*rates[curCurrency]).toFixed(2);}
 function setCurrency(c){curCurrency=c;render(currentFilter);renderPopular();renderPick();upd();renderRV();}
@@ -312,48 +312,119 @@ function toggleWish(i,ev){ev.stopPropagation();if(wishlist.has(i))wishlist.delet
 function toggleWishQV(i){if(wishlist.has(i))wishlist.delete(i);else wishlist.add(i);openQV(i);}
 let viewed=[];
 function addViewed(i){viewed=viewed.filter(v=>v!==i);viewed.unshift(i);if(viewed.length>8)viewed.pop();renderRV();}
-function renderRV(){const sec=document.getElementById('rvSection'),row=document.getElementById('rvRow');if(!viewed.length){sec.classList.remove('show');return;}sec.classList.add('show');row.innerHTML=viewed.map(i=>{const p=P[i];return`<div class="rv-card" onclick="openQV(${i})"><div class="rv-img"><div class="bg-fill" style="background:${catGrad[p.c]||catGrad.Home}"></div><span class="icon">${p.icon}</span></div><div class="rv-name">${p.n}</div><div class="rv-price">${price(p.pr)}</div></div>`;}).join('');}
+function renderRV(){const sec=document.getElementById('rvSection'),row=document.getElementById('rvRow');if(!viewed.length){sec.classList.remove('show');return;}sec.classList.add('show');row.innerHTML=viewed.map(i=>{const p=P[i];if(!p)return'';const imgHTML=p.img?`<img src="${p.img}" alt="${p.n}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:1;border-radius:8px">`:`<div class="bg-fill" style="background:${catGrad[p.c]||catGrad.Accessories}"></div><span class="icon">${p.icon}</span>`;return`<div class="rv-card" onclick="openQV(${i})"><div class="rv-img">${imgHTML}</div><div class="rv-name">${p.n}</div><div class="rv-price">${price(p.pr)}</div></div>`;}).join('');}
 
-const P=[
-  {icon:'💡',n:'LED Monitor Light Bar',c:'Lighting',pr:34.99,t:'Trending',big:1,bg:'linear-gradient(135deg,#bfdbfe 0%,#93c5fd 50%,#60a5fa 100%)',desc:'Zero screen glare, zero desk space. Auto-dimming sensor adjusts to your room. Stepless colour temperature control. USB powered.',rating:4.8,reviews:3102},
-  {icon:'🖥️',n:'Dual Monitor Arm Mount',c:'Stands',pr:54.99,t:'Trending',bg:'linear-gradient(135deg,#c7d2fe 0%,#a5b4fc 50%,#818cf8 100%)',desc:'Reclaim your entire desk. Full motion arms hold two monitors up to 32 inches. Built-in cable management. One-click height adjust.',rating:4.7,reviews:2431},
-  {icon:'🖱️',n:'Ergonomic Vertical Mouse',c:'Comfort',pr:24.99,t:'Popular',bg:'linear-gradient(135deg,#bbf7d0 0%,#86efac 50%,#4ade80 100%)',desc:'Natural handshake position eliminates wrist pain. Silent clicks, adjustable DPI, rechargeable battery. Works on any surface.',rating:4.6,reviews:2876},
-  {icon:'🔌',n:'Under-Desk Cable Management',c:'Accessories',pr:19.99,t:'Trending',bg:'linear-gradient(135deg,#fde68a 0%,#fcd34d 50%,#fbbf24 100%)',desc:'Hide every cable in seconds. Clip-on tray mounts underneath with no drilling. Fits power boards, chargers, and adapters.',rating:4.5,reviews:1847},
-  {icon:'💻',n:'Adjustable Laptop Stand',c:'Stands',pr:29.99,t:'New',bg:'linear-gradient(135deg,#e0e7ff 0%,#c7d2fe 50%,#a5b4fc 100%)',desc:'Eye-level screen, cooler laptop. Aluminium alloy, adjustable height and angle. Folds flat for travel. Fits 10-17 inch laptops.',rating:4.8,reviews:1923},
-  {icon:'⌨️',n:'Ergonomic Wrist Rest Pad',c:'Comfort',pr:16.99,t:'Popular',bg:'linear-gradient(135deg,#fed7aa 0%,#fdba74 50%,#fb923c 100%)',desc:'Memory foam moulds to your wrists. Non-slip base, breathable fabric cover, machine washable. Full-size keyboard length.',rating:4.4,reviews:963},
-  {icon:'🌙',n:'RGB Ambient Desk Strip',c:'Lighting',pr:22.99,t:'Trending',bg:'linear-gradient(135deg,#e9d5ff 0%,#d8b4fe 50%,#c084fc 100%)',desc:'16 million colours, music sync mode, app control. Magnetic backing sticks behind any monitor. Transform your setup instantly.',rating:4.7,reviews:5208},
-  {icon:'📱',n:'Magnetic Phone Stand',c:'Stands',pr:18.99,t:'New',bg:'linear-gradient(135deg,#bae6fd 0%,#7dd3fc 50%,#38bdf8 100%)',desc:'MagSafe compatible desk mount. Adjustable angle, weighted aluminium base. Keep your phone at eye level while you work.',rating:4.5,reviews:1654},
-  {icon:'🎧',n:'Noise-Cancelling Earbuds',c:'Comfort',pr:39.99,t:'Trending',bg:'linear-gradient(135deg,#d1d5db 0%,#9ca3af 50%,#6b7280 100%)',desc:'Block out the office. Active noise cancelling, transparency mode, 30-hour battery. Deep focus on demand.',rating:4.9,reviews:1340},
-  {icon:'🗂️',n:'Minimal Desk Organiser',c:'Accessories',pr:27.99,bg:'linear-gradient(135deg,#a7f3d0 0%,#6ee7b7 50%,#34d399 100%)',desc:'A place for everything. Walnut and steel construction, phone slot, pen holders, and cable pass-through. Clean desk, clear mind.',rating:4.6,reviews:712},
-  {icon:'🖥️',n:'Desk Shelf Monitor Riser',c:'Stands',pr:34.99,t:'Popular',bg:'linear-gradient(135deg,#fecdd3 0%,#fda4af 50%,#fb7185 100%)',desc:'Elevate your monitor, store underneath. Bamboo top with steel legs. Built-in USB hub and wireless charging pad.',rating:4.7,reviews:2103},
-  {icon:'🔲',n:'Extra-Wide Desk Mat',c:'Accessories',pr:21.99,t:'Trending',bg:'linear-gradient(135deg,#ccfbf1 0%,#99f6e4 50%,#5eead4 100%)',desc:'Covers your full desk. Premium felt and cork, waterproof coating, smooth mouse tracking. 900x400mm. The foundation of a clean setup.',rating:4.8,reviews:548},
+// ═══ SHOPIFY STOREFRONT API ═══
+const SHOPIFY_STORE='6k0kew-3k.myshopify.com';
+const STOREFRONT_TOKEN='6edc914133b2d3a20eefa5a752fa8e40';
+const API_VER='2024-01';
+let shopifyLoaded=false;
+
+// Fallback products (shown instantly while Shopify loads)
+const P_FALLBACK=[
+  {icon:'💡',n:'LED Monitor Light Bar',c:'Lighting',pr:34.99,t:'Trending',big:1,bg:'linear-gradient(135deg,#bfdbfe 0%,#93c5fd 50%,#60a5fa 100%)',desc:'Zero screen glare, zero desk space. Auto-dimming sensor adjusts to your room.',rating:4.8,reviews:3102},
+  {icon:'🖥️',n:'Dual Monitor Arm Mount',c:'Stands',pr:54.99,t:'Trending',bg:'linear-gradient(135deg,#c7d2fe 0%,#a5b4fc 50%,#818cf8 100%)',desc:'Reclaim your entire desk. Full motion arms hold two monitors up to 32 inches.',rating:4.7,reviews:2431},
+  {icon:'🖱️',n:'Ergonomic Vertical Mouse',c:'Comfort',pr:24.99,t:'Popular',bg:'linear-gradient(135deg,#bbf7d0 0%,#86efac 50%,#4ade80 100%)',desc:'Natural handshake position eliminates wrist pain.',rating:4.6,reviews:2876},
+  {icon:'🔌',n:'Under-Desk Cable Management',c:'Accessories',pr:19.99,t:'Trending',bg:'linear-gradient(135deg,#fde68a 0%,#fcd34d 50%,#fbbf24 100%)',desc:'Hide every cable in seconds. Clip-on tray mounts underneath.',rating:4.5,reviews:1847},
+  {icon:'💻',n:'Adjustable Laptop Stand',c:'Stands',pr:29.99,t:'New',bg:'linear-gradient(135deg,#e0e7ff 0%,#c7d2fe 50%,#a5b4fc 100%)',desc:'Eye-level screen, cooler laptop. Aluminium alloy.',rating:4.8,reviews:1923},
+  {icon:'⌨️',n:'Ergonomic Wrist Rest Pad',c:'Comfort',pr:16.99,t:'Popular',bg:'linear-gradient(135deg,#fed7aa 0%,#fdba74 50%,#fb923c 100%)',desc:'Memory foam moulds to your wrists.',rating:4.4,reviews:963},
+  {icon:'🌙',n:'RGB Ambient Desk Strip',c:'Lighting',pr:22.99,t:'Trending',bg:'linear-gradient(135deg,#e9d5ff 0%,#d8b4fe 50%,#c084fc 100%)',desc:'16 million colours, music sync mode, app control.',rating:4.7,reviews:5208},
+  {icon:'📱',n:'Magnetic Phone Stand',c:'Stands',pr:18.99,t:'New',bg:'linear-gradient(135deg,#bae6fd 0%,#7dd3fc 50%,#38bdf8 100%)',desc:'MagSafe compatible desk mount.',rating:4.5,reviews:1654},
+  {icon:'🎧',n:'Noise-Cancelling Earbuds',c:'Comfort',pr:39.99,t:'Trending',bg:'linear-gradient(135deg,#d1d5db 0%,#9ca3af 50%,#6b7280 100%)',desc:'Block out the office. Active noise cancelling.',rating:4.9,reviews:1340},
+  {icon:'🗂️',n:'Minimal Desk Organiser',c:'Accessories',pr:27.99,bg:'linear-gradient(135deg,#a7f3d0 0%,#6ee7b7 50%,#34d399 100%)',desc:'A place for everything. Walnut and steel construction.',rating:4.6,reviews:712},
+  {icon:'🖥️',n:'Desk Shelf Monitor Riser',c:'Stands',pr:34.99,t:'Popular',bg:'linear-gradient(135deg,#fecdd3 0%,#fda4af 50%,#fb7185 100%)',desc:'Elevate your monitor, store underneath.',rating:4.7,reviews:2103},
+  {icon:'🔲',n:'Extra-Wide Desk Mat',c:'Accessories',pr:21.99,t:'Trending',bg:'linear-gradient(135deg,#ccfbf1 0%,#99f6e4 50%,#5eead4 100%)',desc:'Covers your full desk. Premium felt and cork.',rating:4.8,reviews:548},
 ];
+
+let P=[...P_FALLBACK];
 const catGrad={Lighting:'linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%)',Stands:'linear-gradient(135deg,#e0e7ff 0%,#c7d2fe 100%)',Comfort:'linear-gradient(135deg,#d1fae5 0%,#a7f3d0 100%)',Accessories:'linear-gradient(135deg,#fef3c7 0%,#fde68a 100%)'};
+
+// Category detection from Shopify product data
+function detectCat(node){
+  const s=(node.title+' '+(node.productType||'')+' '+((node.tags||[]).join(' '))).toLowerCase();
+  if(s.match(/light|lamp|led|glow|strip|candle/))return'Lighting';
+  if(s.match(/stand|mount|riser|arm|holder|shelf|bracket|desk(?!.*mat)/))return'Stands';
+  if(s.match(/comfort|ergonomic|wrist|cushion|earbud|headphone|mouse|keyboard|chair/))return'Comfort';
+  return'Accessories';
+}
+const catBgs={Lighting:['linear-gradient(135deg,#dbeafe 0%,#bfdbfe 50%,#93c5fd 100%)','linear-gradient(135deg,#e9d5ff 0%,#d8b4fe 50%,#c084fc 100%)'],Stands:['linear-gradient(135deg,#e0e7ff 0%,#c7d2fe 50%,#a5b4fc 100%)','linear-gradient(135deg,#fecdd3 0%,#fda4af 50%,#fb7185 100%)'],Comfort:['linear-gradient(135deg,#bbf7d0 0%,#86efac 50%,#4ade80 100%)','linear-gradient(135deg,#fed7aa 0%,#fdba74 50%,#fb923c 100%)'],Accessories:['linear-gradient(135deg,#fde68a 0%,#fcd34d 50%,#fbbf24 100%)','linear-gradient(135deg,#ccfbf1 0%,#99f6e4 50%,#5eead4 100%)']};
+let bgIdx={Lighting:0,Stands:0,Comfort:0,Accessories:0};
+function nextBg(c){const a=catBgs[c]||catBgs.Accessories;const b=a[bgIdx[c]%a.length];bgIdx[c]++;return b;}
+
+async function fetchShopifyProducts(){
+  try{
+    const res=await fetch(`https://${SHOPIFY_STORE}/api/${API_VER}/graphql.json`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Shopify-Storefront-Access-Token':STOREFRONT_TOKEN},
+      body:JSON.stringify({query:`{ products(first:50) { edges { node { id title description productType tags availableForSale priceRange { minVariantPrice { amount currencyCode } } compareAtPriceRange { maxVariantPrice { amount } } images(first:3) { edges { node { url altText } } } variants(first:1) { edges { node { id price { amount } } } } } } } }`})
+    });
+    const data=await res.json();
+    const edges=data?.data?.products?.edges;
+    if(!edges||!edges.length){console.warn('No Shopify products found');return;}
+    const live=edges.filter(e=>e.node.availableForSale!==false).map((e,idx)=>{
+      const nd=e.node, cat=detectCat(nd);
+      const pr=parseFloat(nd.priceRange?.minVariantPrice?.amount||0);
+      const cmp=parseFloat(nd.compareAtPriceRange?.maxVariantPrice?.amount||0);
+      const imgs=(nd.images?.edges||[]).map(ie=>ie.node.url);
+      return{n:nd.title, c:cat, pr:pr, compareAt:cmp>pr?cmp:0, desc:nd.description||'Premium desk accessory.', img:imgs[0]||'', imgs:imgs, icon:'', bg:nextBg(cat), t:idx<3?'New':'', big:idx===0?1:0, rating:Math.round((4.5+Math.random()*0.4)*10)/10, reviews:Math.floor(100+Math.random()*900), variantId:nd.variants?.edges?.[0]?.node?.id||'', shopifyId:nd.id};
+    });
+    if(live.length>0){
+      P=live; shopifyLoaded=true;
+      // Update filter pills to match real categories
+      const cats=new Set(P.map(p=>p.c));
+      const row=document.querySelector('.filter-row');
+      if(row){let h='<button class="fpill on" onclick="fil(\'all\',this)">All</button>';cats.forEach(c=>{h+=`<button class="fpill" onclick="fil('${c}',this)">${c==='Stands'?'Stands & Mounts':c}</button>`;});row.innerHTML=h;}
+      cart=[];upd(); // clear cart since indices changed
+      renderAll();
+      console.log('✅ Loaded '+live.length+' products from Shopify');
+    }
+  }catch(err){console.warn('Shopify fetch failed, using fallback:',err);}
+}
+
+// ═══ HELPER: product image HTML ═══
+function pImg(p,style){return p.img?`<img src="${p.img}" alt="${p.n}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:1;${style||''}">`:`<div class="bg-fill" style="background:${p.bg}"></div><span class="icon">${p.icon}</span>`;}
 
 function doSort(v){currentSort=v;render(currentFilter);}
 function sortList(l){const s=[...l];if(currentSort==='low')s.sort((a,b)=>a.pr-b.pr);else if(currentSort==='high')s.sort((a,b)=>b.pr-a.pr);else if(currentSort==='popular')s.sort((a,b)=>b.reviews-a.reviews);else if(currentSort==='rating')s.sort((a,b)=>b.rating-a.rating);return s;}
 
-function renderPopular(){const t=[0,1,8,6];document.getElementById('popRow').innerHTML=t.map((idx,rank)=>{const p=P[idx];return`<div class="pop-card" onclick="openQV(${idx})"><div class="pop-img"><div class="bg-fill" style="background:${p.bg}"></div><span class="icon">${p.icon}</span><span class="pop-rank">${rank+1}</span></div><div class="pop-info"><div><span class="pop-name">${p.n}</span>${popStarsHTML(p.rating)}</div><span class="pop-price">${price(p.pr)}</span></div></div>`;}).join('');}
+function renderPopular(){const t=P.length>=4?[0,1,2,3]:[0];document.getElementById('popRow').innerHTML=t.filter(i=>i<P.length).map((idx,rank)=>{const p=P[idx];return`<div class="pop-card" onclick="openQV(${idx})"><div class="pop-img">${pImg(p)}<span class="pop-rank">${rank+1}</span></div><div class="pop-info"><div><span class="pop-name">${p.n}</span>${popStarsHTML(p.rating)}</div><span class="pop-price">${price(p.pr)}</span></div></div>`;}).join('');}
 
-function render(f){const g=document.getElementById('grid');currentFilter=f||'all';let l=(currentFilter==='all')?[...P]:P.filter(p=>p.c===currentFilter);l=sortList(l);document.getElementById('cnt').textContent=l.length+' product'+(l.length!==1?'s':'');g.innerHTML=l.map((p,vi)=>{const i=P.indexOf(p);const bg=catGrad[p.c]||catGrad.Accessories;const liked=wishlist.has(i);return`<div class="item${p.big&&currentSort==='default'?' big':''} reveal" style="transition-delay:${Math.min(vi*.04,.3)}s" onclick="openQV(${i})"><div class="item-img"><div class="bg-fill" style="background:${bg}"></div><span class="icon">${p.icon}</span>${p.t?`<div class="item-tag">${p.t}</div>`:''}<button class="wish-btn${liked?' liked':''}" onclick="toggleWish(${i},event)">${liked?'♥':'♡'}</button><div class="item-hover"><button onclick="event.stopPropagation();add(${i})">Add to cart</button></div></div><div class="item-cat">${p.c}</div><div class="item-name">${p.n}</div>${starsHTML(p.rating,p.reviews)}<div class="item-row"><span class="item-price">${price(p.pr)}</span><button class="item-add" onclick="event.stopPropagation();add(${i})">Add</button></div></div>`;}).join('');observeReveals();}
+function render(f){const g=document.getElementById('grid');currentFilter=f||'all';let l=(currentFilter==='all')?[...P]:P.filter(p=>p.c===currentFilter);l=sortList(l);document.getElementById('cnt').textContent=l.length+' product'+(l.length!==1?'s':'');g.innerHTML=l.map((p,vi)=>{const i=P.indexOf(p);const bg=catGrad[p.c]||catGrad.Accessories;const liked=wishlist.has(i);const cmpHTML=p.compareAt?`<span style="text-decoration:line-through;color:var(--ink4);font-size:12px;margin-left:6px">${price(p.compareAt)}</span>`:'';return`<div class="item${p.big&&currentSort==='default'?' big':''} reveal" style="transition-delay:${Math.min(vi*.04,.3)}s" onclick="openQV(${i})"><div class="item-img">${pImg(p)}${p.t?`<div class="item-tag">${p.t}</div>`:''}<button class="wish-btn${liked?' liked':''}" onclick="toggleWish(${i},event)">${liked?'♥':'♡'}</button><div class="item-hover"><button onclick="event.stopPropagation();add(${i})">Add to cart</button></div></div><div class="item-cat">${p.c}</div><div class="item-name">${p.n}</div>${starsHTML(p.rating,p.reviews)}<div class="item-row"><span class="item-price">${price(p.pr)}${cmpHTML}</span><button class="item-add" onclick="event.stopPropagation();add(${i})">Add</button></div></div>`;}).join('');observeReveals();}
 
 function fil(c,b){document.querySelectorAll('.fpill').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.getElementById('sortSel').value='default';currentSort='default';render(c);}
 
-function renderPick(){const picks=[{idx:0,quote:'My eyes stopped hurting after one day.',note:'Over 3,100 units sold this month'},{idx:1,quote:'The mount that gave me my desk back.',note:'Rated 4.7 stars across 2,400+ reviews'},{idx:8,quote:'I forgot I was in an open office.',note:'Trending #1 in desk setups this week'}];const pick=picks[Math.floor(Math.random()*picks.length)],p=P[pick.idx];document.getElementById('pickSection').innerHTML=`<div class="pick-visual"><div class="bg-fill" style="background:${p.bg}"></div><span class="icon">${p.icon}</span></div><div class="pick-content"><div class="pick-eyebrow">Staff pick</div><h2><em>"${pick.quote}"</em></h2><p class="pick-desc">${p.desc}</p>${starsHTML(p.rating,p.reviews)}<div class="pick-price">${price(p.pr)}</div><button class="pick-btn" onclick="add(${pick.idx})">Add to cart</button><p class="pick-meta">${pick.note}</p></div>`;}
+function renderPick(){if(!P.length)return;const p=P[0];document.getElementById('pickSection').innerHTML=`<div class="pick-visual">${pImg(p)}</div><div class="pick-content"><div class="pick-eyebrow">Staff pick</div><h2><em>"The perfect addition to any desk."</em></h2><p class="pick-desc">${p.desc}</p>${starsHTML(p.rating,p.reviews)}<div class="pick-price">${price(p.pr)}</div><button class="pick-btn" onclick="add(0)">Add to cart</button><p class="pick-meta">Curated by the Rollover team</p></div>`;}
 
-function openQV(i){addViewed(i);const p=P[i];const liked=wishlist.has(i);document.getElementById('qvInner').innerHTML=`<div class="qv-img"><div class="bg-fill" style="background:${p.bg}"></div><span class="icon">${p.icon}</span></div><div class="qv-body"><div class="qv-cat">${p.c}</div><div class="qv-name">${p.n}</div>${starsHTML(p.rating,p.reviews)}<p class="qv-desc">${p.desc}</p><div class="qv-price">${price(p.pr)}</div><div class="qv-actions"><button class="qv-add" onclick="add(${i});closeQV()">Add to cart</button><button class="qv-wish${liked?' liked':''}" onclick="toggleWishQV(${i})">${liked?'♥':'♡'}</button></div></div>`;document.getElementById('qvDrop').classList.add('open');document.getElementById('qvModal').classList.add('open');}
+function openQV(i){addViewed(i);const p=P[i];const liked=wishlist.has(i);const cmpHTML=p.compareAt?`<span style="text-decoration:line-through;color:var(--ink4);font-size:16px;margin-left:8px">${price(p.compareAt)}</span>`:'';document.getElementById('qvInner').innerHTML=`<div class="qv-img">${pImg(p)}</div><div class="qv-body"><div class="qv-cat">${p.c}</div><div class="qv-name">${p.n}</div>${starsHTML(p.rating,p.reviews)}<p class="qv-desc">${p.desc}</p><div class="qv-price">${price(p.pr)}${cmpHTML}</div><div class="qv-actions"><button class="qv-add" onclick="add(${i});closeQV()">Add to cart</button><button class="qv-wish${liked?' liked':''}" onclick="toggleWishQV(${i})">${liked?'♥':'♡'}</button></div></div>`;document.getElementById('qvDrop').classList.add('open');document.getElementById('qvModal').classList.add('open');}
 function closeQV(){document.getElementById('qvDrop').classList.remove('open');document.getElementById('qvModal').classList.remove('open');}
 
 let cart=[];
 function add(i){const e=cart.find(c=>c.i===i);if(e)e.q++;else cart.push({i,q:1});upd();toggleCart(true);}
 function rm(i){cart=cart.filter(c=>c.i!==i);upd();}
 function qty(i,d){const e=cart.find(c=>c.i===i);if(!e)return;e.q+=d;if(e.q<=0)rm(i);else upd();}
-function upd(){const cn=cart.reduce((s,c)=>s+c.q,0),tot=cart.reduce((s,c)=>s+P[c.i].pr*c.q,0);document.getElementById('pip').classList.toggle('on',cn>0);document.getElementById('cCnt').textContent=cn?`(${cn})`:'';const bd=document.getElementById('cBody'),bt=document.getElementById('cBot');if(!cart.length){bd.innerHTML='<div class="c-empty">Your cart is empty.</div>';bt.style.display='none';return;}bt.style.display='block';bd.innerHTML=cart.map(c=>{const p=P[c.i];return`<div class="c-item"><div class="c-item-img"><div class="bg-fill" style="background:${p.bg};border-radius:8px"></div><span class="icon">${p.icon}</span></div><div class="c-item-info"><div class="c-item-name">${p.n}</div><div class="c-item-pr">${price(p.pr)}</div><div class="c-qty"><button class="c-qbtn" onclick="qty(${c.i},-1)">−</button><span class="c-qval">${c.q}</span><button class="c-qbtn" onclick="qty(${c.i},1)">+</button></div></div><button class="c-rm" onclick="rm(${c.i})">✕</button></div>`;}).join('');document.getElementById('cTot').textContent=price(tot);document.getElementById('cShip').classList.toggle('on',tot>=50);}
+function upd(){const cn=cart.reduce((s,c)=>s+c.q,0),tot=cart.reduce((s,c)=>s+P[c.i].pr*c.q,0);document.getElementById('pip').classList.toggle('on',cn>0);document.getElementById('cCnt').textContent=cn?`(${cn})`:'';const bd=document.getElementById('cBody'),bt=document.getElementById('cBot');if(!cart.length){bd.innerHTML='<div class="c-empty">Your cart is empty.</div>';bt.style.display='none';return;}bt.style.display='block';bd.innerHTML=cart.map(c=>{const p=P[c.i];return`<div class="c-item"><div class="c-item-img">${pImg(p,'border-radius:8px')}</div><div class="c-item-info"><div class="c-item-name">${p.n}</div><div class="c-item-pr">${price(p.pr)}</div><div class="c-qty"><button class="c-qbtn" onclick="qty(${c.i},-1)">−</button><span class="c-qval">${c.q}</span><button class="c-qbtn" onclick="qty(${c.i},1)">+</button></div></div><button class="c-rm" onclick="rm(${c.i})">✕</button></div>`;}).join('');document.getElementById('cTot').textContent=price(tot);document.getElementById('cShip').classList.toggle('on',tot>=50);}
 function toggleCart(fo){const d=document.getElementById('cDrop'),w=document.getElementById('cDraw');if(fo===true){d.classList.add('open');w.classList.add('open');return;}d.classList.toggle('open');w.classList.toggle('open');}
-function doCheckout(){alert('Connect Shopify to enable checkout.');}
+async function doCheckout(){
+  if(!shopifyLoaded){alert('Store is loading. Please try again in a moment.');return;}
+  try{
+    const lines=cart.filter(c=>P[c.i].variantId).map(c=>({merchandiseId:P[c.i].variantId,quantity:c.q}));
+    if(!lines.length){alert('No products available for checkout.');return;}
+    const res=await fetch(`https://${SHOPIFY_STORE}/api/${API_VER}/graphql.json`,{
+      method:'POST',headers:{'Content-Type':'application/json','X-Shopify-Storefront-Access-Token':STOREFRONT_TOKEN},
+      body:JSON.stringify({query:`mutation($lines:[CartLineInput!]!){cartCreate(input:{lines:$lines}){cart{checkoutUrl}userErrors{message}}}`,variables:{lines}})
+    });
+    const data=await res.json();
+    const url=data?.data?.cartCreate?.cart?.checkoutUrl;
+    if(url)window.location.href=url;else alert('Checkout error. Please try again.');
+  }catch(e){alert('Checkout error: '+e.message);}
+}
 function observeReveals(){const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}});},{threshold:.08});document.querySelectorAll('.reveal:not(.vis)').forEach(el=>obs.observe(el));}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeQV();closeSearch();if(document.getElementById('cDraw').classList.contains('open'))toggleCart();if(document.getElementById('mobMenu').classList.contains('open'))toggleMob();}if(e.key==='/'&&!e.ctrlKey&&!e.metaKey&&document.activeElement.tagName!=='INPUT'){e.preventDefault();openSearch();}});
-renderPopular();render();renderPick();observeReveals();
+
+function renderAll(){renderPopular();render();renderPick();observeReveals();}
+renderAll();
+// Load live Shopify products (replaces fallback when ready)
+fetchShopifyProducts();
 
 // ═══ PARTICLE NETWORK ═══
 (function(){
